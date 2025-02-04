@@ -1,0 +1,16 @@
+services:
+  app:
+    container_name: keycloak-example-app
+    build:
+      context: .
+    volumes:
+      - ./app:/var/www/html
+    networks:
+      - keycloak-infrastructure_hawk-keycloak
+      - default
+    ports:
+      - ${DOCKER_PROJECT_IP:-127.0.0.1}:8099:80
+
+networks:
+  keycloak-infrastructure_hawk-keycloak:
+    external: true

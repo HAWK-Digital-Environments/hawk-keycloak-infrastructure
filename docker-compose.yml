@@ -1,0 +1,56 @@
+services:
+  keycloak:
+    image: hawk-keycloak-dev
+    build:
+      context: .
+      args:
+        - KEYCLOAK_VERSION=26.1
+    command: start --verbose --import-realm
+    environment:
+      KC_HOSTNAME: http://localhost:8088
+      KC_HTTP_ENABLED: true
+      KC_HEALTH_ENABLED: true
+      KC_DB: mysql
+      KC_DB_URL: jdbc:mysql://${MYSQL_HOST:-keycloak-mysql}:${MYSQL_PORT:-3306}/${MYSQL_KEYCLOAK_DB_NAME}
+      KC_DB_USERNAME: ${MYSQL_KEYCLOAK_USER}
+      KC_DB_PASSWORD: ${MYSQL_KEYCLOAK_PASSWORD}
+      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
+    volumes:
+      - ./data:/opt/keycloak/data/import
+    restart: always
+    ports:
+      - ${DOCKER_PROJECT_IP:-127.0.0.1}:8088:8080
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    networks:
+      - net
+      - default
+
+  keycloak-mysql:
+    restart: no
+    image: mysql:8.0
+    command:
+      - --default-authentication-plugin=mysql_native_password
+      - --max_connections=2000
+    environment:
+      MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
+      MYSQL_DATABASE: $MYSQL_KEYCLOAK_DB_NAME
+      MYSQL_USER: $MYSQL_KEYCLOAK_USER
+      MYSQL_PASSWORD: $MYSQL_KEYCLOAK_PASSWORD
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - ${DOCKER_PROJECT_IP:-127.0.0.1}:${MYSQL_PORT:-8089}:3306
+
+volumes:
+  mysql_data:
+    driver: local
+
+networks:
+  net:
+    driver: bridge

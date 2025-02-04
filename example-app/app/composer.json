@@ -1,0 +1,8 @@
+{
+    "name": "hawk/keycloak-example-app",
+    "description": "A simple app that shows how to integrate your own app with the keycloak infrastructure",
+    "type": "project",
+    "license": "Apache-2.0",
+    "minimum-stability": "stable",
+    "require": {}
+}
