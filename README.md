@@ -79,6 +79,24 @@ To trigger the import you can run the following command:
 ./bin/import-users.sh --import=./data/users.csv
 ```
 
+## Using a local version of [hawk-auth-server](https://github.com/HAWK-Digital-Environments/hawk-keycloak-auth-server)
+While developing the `hawk-auth-server` extension, you might want to use a local version of it in the keycloak server.
+To do so create a new file called `docker-compose.override.yml` in the root of this repository and add the following content:
+
+```yaml
+services:
+  keycloak:
+    build:
+      target: local_ext_dev
+      additional_contexts:
+        extension: /path/to/extension/directory
+```
+
+**IMPORTANT** Replace `/path/to/extension/directory` with the path to the `target` directory of the `hawk-auth-server` extension.
+The `target` directory, is the build directory of the extension, which contains the `hawk-auth-server-extension.jar` file.
+
+After adding the file simply (re)start your project using: `docker compose up --build`
+
 ## BEWARE
 
 **This is a development setup and should not be used in production!**

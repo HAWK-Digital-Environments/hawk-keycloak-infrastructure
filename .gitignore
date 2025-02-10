@@ -20,3 +20,6 @@
 /.nova
 /.vscode
 /.zed
+
+# No override files to allow dev environment
+docker-compose.override.yml
