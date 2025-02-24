@@ -4908,6 +4908,7 @@
     "requiredActions" : [ ],
     "realmRoles" : [ "default-roles-dev-realm" ],
     "clientRoles" : {
+      "realm-management" : [ "hawk-manage-resource-permissions", "hawk-manage-profile-data", "hawk-manage-profile-structure", "hawk-client" ],
       "hawk" : [ "uma_protection" ]
     },
     "notBefore" : 0,
@@ -5767,7 +5768,6 @@
       "client.secret.creation.time" : "1738676552",
       "backchannel.logout.session.required" : "true",
       "frontchannel.logout.session.required" : "true",
-      "post.logout.redirect.uris" : "+",
       "display.on.consent.screen" : "false",
       "oauth2.device.authorization.grant.enabled" : "false",
       "backchannel.logout.revoke.offline.tokens" : "false"
@@ -7331,7 +7331,7 @@
     "clientOfflineSessionMaxLifespan" : "0",
     "oauth2DevicePollingInterval" : "5",
     "clientSessionIdleTimeout" : "0",
-    "custom.hawk.cache-buster" : "1740425266345",
+    "custom.hawk.cache-buster" : "1740426344766",
     "clientOfflineSessionIdleTimeout" : "0",
     "cibaInterval" : "5",
     "realmReusableOtpCode" : "false",
